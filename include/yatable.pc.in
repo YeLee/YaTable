@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: YaTable
+Description: Yet Another Table Input Method
+Version: @LIBYATABLE_VERSION@
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lyatable
