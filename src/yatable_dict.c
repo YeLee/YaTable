@@ -336,7 +336,8 @@ boolean YaTableDictInitYaTableInfo(YaTableSid sid)
     YaTableInfo* info = YATABLESID(sid)->info;
     static char* KeyName[] = {"Enable", "ProgramVersion", "DatabaseVersion",
                               "id", "DisplayName", "YaTableIndex", "LangCode",
-                              "keylength", "WordSepar", "CodeAllmatch",
+                              "keylength", "WordSepar",
+                              "CodeAllmatch", "CodeMaxAllmatch",
                               "PhraseCodeNoempty", "PhraseCodeUseonce"
                              };
     sqlite3* sqlhandle = NULL;
@@ -396,9 +397,12 @@ boolean YaTableDictInitYaTableInfo(YaTableSid sid)
     info->CodeAllmatch = (rint == NULL)? 0:*rint;
 
     rint = YaTableGetYaTableInfoValue(sqlhandle, TABLEOPTION, KeyName[10]);
-    info->PhraseCodeNoempty = (rint == NULL)? 0:*rint;
+    info->CodeMaxAllmatch = (rint == NULL)? 0:*rint;
 
     rint = YaTableGetYaTableInfoValue(sqlhandle, TABLEOPTION, KeyName[11]);
+    info->PhraseCodeNoempty = (rint == NULL)? 0:*rint;
+
+    rint = YaTableGetYaTableInfoValue(sqlhandle, TABLEOPTION, KeyName[12]);
     info->PhraseCodeUseonce = (rint == NULL)? 0:*rint;
 
     info->keycode =

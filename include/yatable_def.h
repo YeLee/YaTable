@@ -92,6 +92,7 @@ typedef struct _YATABLE_INFO_ {
     char* sharedata;
 
     boolean CodeAllmatch;
+    size_t CodeMaxAllmatch;
 
     char WordSepar;
     boolean PhraseCodeNoempty;

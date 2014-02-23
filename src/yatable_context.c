@@ -108,13 +108,14 @@ static boolean YaTableGetCandWords(YaTableContext* context, char* procstr)
 {
     char* sql = NULL;
     boolean allmatch = YATABLESID(context->sid)->info->CodeAllmatch;
+    size_t maxallmatch = YATABLESID(context->sid)->info->CodeMaxAllmatch;
     sql = (char*)sqlite3_mprintf("SELECT code, text, weight"
                                  " FROM [Data] "
                                  "WHERE code=%q%q%q ORDER BY weight DESC;",
                                  "\"", procstr, "\"");
     context->candnum = YaTableGetMatchCandWords(context, sql);
 
-    if(allmatch == false) {
+    if((allmatch == false) && (context->procindex > maxallmatch)) {
         sql = (char*)sqlite3_mprintf("SELECT code, text, weight"
                                      " FROM [Data] "
                                      "WHERE code LIKE %q%q%%%q "
