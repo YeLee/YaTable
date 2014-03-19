@@ -261,7 +261,7 @@ YaTableCommitData* YaTableCommitGenWord(YaTableSid sid,
     } else if(cand->indexofpage < index) {
         while(cand->indexofpage != index) {
             cand = cand->nextcand;
-            if(cand == NULL) break;
+            if(cand == NULL) return NULL;
         }
         if(cand->indexofpage != index) return NULL;
     }
