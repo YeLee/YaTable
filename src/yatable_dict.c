@@ -289,6 +289,8 @@ static YaTableOtherKey* YaTableGetOtherKeys(sqlite3* sqlhandle)
             tkeytype = KEYCOMMITRAW;
         } else if(strcmp(szkeytype, "KeyCommitClear") == 0) {
             tkeytype = KEYCOMMITCLEAR;
+        } else if(strcmp(szkeytype, "KeyCommitSelected") == 0) {
+            tkeytype = KEYCOMMITSELECTED;
         } else if(strcmp(szkeytype, "KeyMoveBackward") == 0) {
             tkeytype = KEYMOVEBACKWARD;
         } else if(strcmp(szkeytype, "KeyMoveForward") == 0) {

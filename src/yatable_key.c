@@ -288,6 +288,12 @@ boolean YaTableProcessKey(YaTableSid sid, KeySym sym, unsigned int state)
                 return true;
             }
             break;
+        case KEYCOMMITSELECTED:
+            if(stat && (otherkey->stat == state)) {
+                YaTableKeySetKeyEvent(sid, KEY_EVENT_COMMIT_SELECTED);
+                return true;
+            }
+            break;
         case KEYMOVEBACKWARD:
             if(stat && (otherkey->stat == state)) {
                 if((commit->commitprev != NULL) && (commit->cursorindex > 0)) {
