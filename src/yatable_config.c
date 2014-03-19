@@ -1,9 +1,11 @@
 #include <sqlite3.h>
+#include <unistd.h>
 #include "yatable_config.h"
 #include "yatable_private.h"
 
 YaTableConfig YaTableConfigOpen(char* userdata)
 {
+    if(access(userdata, R_OK) != F_OK) return NULL;
     sqlite3* cfg = NULL;
     if(sqlite3_open(userdata, &cfg) == SQLITE_OK) return cfg;
     return NULL;
