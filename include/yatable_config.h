@@ -2,6 +2,9 @@
 #define YATABLE_CONFIG_H
 #include "yatable_def.h"
 
+YaTableConfig YaTableConfigOpen(char* userdata);
+void YaTableConfigClose(YaTableConfig cfg);
+
 int YaTableConfigGetINT(YaTableSid sid, char* option);
 boolean YaTableConfigGetBOOL(YaTableSid sid, char* option);
 char* YaTableConfigGetSTRING(YaTableSid sid, char* option);

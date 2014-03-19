@@ -2,11 +2,23 @@
 #include "yatable_config.h"
 #include "yatable_private.h"
 
-int YaTableConfigGetINT(YaTableSid sid, char* option)
+YaTableConfig YaTableConfigOpen(char* userdata)
+{
+    sqlite3* cfg = NULL;
+    if(sqlite3_open(userdata, &cfg) == SQLITE_OK) return cfg;
+    return NULL;
+}
+
+void YaTableConfigClose(YaTableConfig cfg)
+{
+    sqlite3_close(cfg);
+}
+
+int YaTableConfigGetINT(YaTableConfig cfg, char* option)
 {
     char* sql = NULL;
     sqlite3_stmt* stmt = NULL;
-    sqlite3* sqlhandle = YATABLESID(sid)->handle;
+    sqlite3* sqlhandle = cfg;
     int res = 0;
     int sqlres = SQLITE_OK;
 
@@ -25,17 +37,17 @@ int YaTableConfigGetINT(YaTableSid sid, char* option)
     return res;
 }
 
-boolean YaTableConfigGetBOOL(YaTableSid sid, char* option)
+boolean YaTableConfigGetBOOL(YaTableConfig cfg, char* option)
 {
-    if(YaTableConfigGetINT(sid, option) == 0) return false;
+    if(YaTableConfigGetINT(cfg, option) == 0) return false;
     return true;
 }
 
-char* YaTableConfigGetSTRING(YaTableSid sid, char* option)
+char* YaTableConfigGetSTRING(YaTableConfig cfg, char* option)
 {
     char* sql = NULL;
     sqlite3_stmt* stmt = NULL;
-    sqlite3* sqlhandle = YATABLESID(sid)->handle;
+    sqlite3* sqlhandle = cfg;
     char* res = NULL;
     int sqlres = SQLITE_OK;
 
@@ -58,10 +70,10 @@ char* YaTableConfigGetSTRING(YaTableSid sid, char* option)
     return res;
 }
 
-char YaTableConfigGetCHAR(YaTableSid sid, char* option)
+char YaTableConfigGetCHAR(YaTableConfig cfg, char* option)
 {
     char res = '\0';
-    char* sqlres = YaTableConfigGetSTRING(sid, option);
+    char* sqlres = YaTableConfigGetSTRING(cfg, option);
     if(sqlres != NULL) {
         res = *sqlres;
         yafree(sqlres);
@@ -69,10 +81,10 @@ char YaTableConfigGetCHAR(YaTableSid sid, char* option)
     return res;
 }
 
-boolean YaTableConfigSetINT(YaTableSid sid, char* option, int value)
+boolean YaTableConfigSetINT(YaTableConfig cfg, char* option, int value)
 {
     char* sql = NULL;
-    sqlite3* sqlhandle = YATABLESID(sid)->handle;
+    sqlite3* sqlhandle = cfg;
     boolean res = true;
 
     sql = sqlite3_mprintf("UPDATE [option] SET %q=%d;", option, value);
@@ -82,21 +94,21 @@ boolean YaTableConfigSetINT(YaTableSid sid, char* option, int value)
     return res;
 }
 
-boolean YaTableConfigSetBOOL(YaTableSid sid, char* option, boolean value)
+boolean YaTableConfigSetBOOL(YaTableConfig cfg, char* option, boolean value)
 {
     boolean res = false;
     if(value == false) {
-        res = YaTableConfigSetINT(sid, option, false);
+        res = YaTableConfigSetINT(cfg, option, false);
     } else {
-        res = YaTableConfigSetINT(sid, option, true);
+        res = YaTableConfigSetINT(cfg, option, true);
     }
     return res;
 }
 
-boolean YaTableConfigSetSTRING(YaTableSid sid, char* option, char* value)
+boolean YaTableConfigSetSTRING(YaTableConfig cfg, char* option, char* value)
 {
     char* sql = NULL;
-    sqlite3* sqlhandle = YATABLESID(sid)->handle;
+    sqlite3* sqlhandle = cfg;
     boolean res = true;
 
     sql = sqlite3_mprintf("UPDATE [option] SET %q=%q%q%q;", option,
@@ -107,10 +119,10 @@ boolean YaTableConfigSetSTRING(YaTableSid sid, char* option, char* value)
     return res;
 }
 
-boolean YaTableConfigSetCHAR(YaTableSid sid, char* option, char value)
+boolean YaTableConfigSetCHAR(YaTableConfig cfg, char* option, char value)
 {
     char* sql = NULL;
-    sqlite3* sqlhandle = YATABLESID(sid)->handle;
+    sqlite3* sqlhandle = cfg;
     boolean res = true;
 
     sql = sqlite3_mprintf("UPDATE [option] SET %q=%q%c%q;", option,

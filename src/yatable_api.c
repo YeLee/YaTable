@@ -42,6 +42,9 @@ YATABLE_API YaTableAPI* YaTableGetAPIs()
     api.keygetkeyevent = &YaTableKeyGetKeyEvent;
     api.processkey = &YaTableProcessKey;
 
+    api.configopen = &YaTableConfigOpen;
+    api.configclose = &YaTableConfigClose;
+
     api.configgetint = &YaTableConfigGetINT;
     api.configgetbool = &YaTableConfigGetBOOL;
     api.configgetstring = &YaTableConfigGetSTRING;

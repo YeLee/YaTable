@@ -44,15 +44,18 @@ extern "C" {
         YaTableKeyEvent(*keygetkeyevent)(YaTableSid sid);
         boolean(*processkey)(YaTableSid sid, KeySym sym, unsigned int state);
 
-        int (*configgetint)(YaTableSid sid, char* option);
-        boolean(*configgetbool)(YaTableSid sid, char* option);
-        char* (*configgetstring)(YaTableSid sid, char* option);
-        char(*configgetchar)(YaTableSid sid, char* option);
+        YaTableConfig(*configopen)(char* userdata);
+        void (*configclose)(YaTableConfig cfg);
 
-        boolean(*configsetint)(YaTableSid sid, char* option, int value);
-        boolean(*configsetbool)(YaTableSid sid, char* option, boolean value);
-        boolean(*configsetstring)(YaTableSid sid, char* option, char* value);
-        boolean(*configsetchar)(YaTableSid sid, char* option, char value);
+        int (*configgetint)(YaTableConfig cfg, char* option);
+        boolean(*configgetbool)(YaTableConfig cfg, char* option);
+        char* (*configgetstring)(YaTableConfig cfg, char* option);
+        char(*configgetchar)(YaTableConfig cfg, char* option);
+
+        boolean(*configsetint)(YaTableConfig cfg, char* option, int value);
+        boolean(*configsetbool)(YaTableConfig cfg, char* option, boolean value);
+        boolean(*configsetstring)(YaTableConfig cfg, char* option, char* value);
+        boolean(*configsetchar)(YaTableConfig cfg, char* option, char value);
 
     } YaTableAPI;
 

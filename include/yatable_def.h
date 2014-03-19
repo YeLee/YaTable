@@ -35,6 +35,7 @@ typedef enum _YATABLE_KEY_EVENT_ {
 } YaTableKeyEvent;
 
 typedef void* YaTableSid;
+typedef void* YaTableConfig;
 
 typedef enum _YATABLE_KEY_TYPE_ {
     KEYCODE = 1,
