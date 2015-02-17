@@ -37,6 +37,7 @@ extern "C" {
         YaTableCandInfo* (*contextgetselectedoflist)(YaTableContext* context);
 
         void (*dictchangewordweight)(YaTableSid sid, YaTableCommitData* data);
+        boolean(*removephrase)(YaTableContext* context);
 
         char* (*keygetcommitstrbykeyevent)(YaTableSid sid,
                                            YaTableKeyEvent event);

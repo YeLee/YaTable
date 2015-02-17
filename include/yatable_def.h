@@ -18,6 +18,11 @@
 #define true 1
 #endif
 
+typedef enum _YATABLE_PHRASE_TYPE_ {
+    YATABLE_SYSTEM_PHRASE = 0,
+    YATABLE_USER_PHRASE = 1
+} YaTablePhraseType;
+
 typedef enum _YATABLE_KEY_EVENT_ {
     KEY_EVENT_NOTHING = 0,
     KEY_EVENT_COMMIT_CURRENT = 1,
@@ -33,6 +38,8 @@ typedef enum _YATABLE_KEY_EVENT_ {
     KEY_EVENT_PAGE_NEXT = 12,
     KEY_EVENT_CAND_PREV = 13,
     KEY_EVENT_CAND_NEXT = 14,
+
+    KEY_EVENT_REMOVE_USER_PHRASE = 15
 } YaTableKeyEvent;
 
 typedef void* YaTableSid;
@@ -59,6 +66,7 @@ typedef enum _YATABLE_OTHER_KEY_TYPE_ {
     KEYCOMMITRAW = 3,
     KEYCOMMITCLEAR = 4,
     KEYCOMMITSELECTED = 5,
+    KEYREMOVEUSERPHRASE = 9,
     KEYMOVEBACKWARD = 11,
     KEYMOVEFORWARD = 12,
     KEYPREVPAGE = 13,

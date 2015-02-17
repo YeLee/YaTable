@@ -5,6 +5,7 @@
 #include "yatable_dict.h"
 #include "yatable_key.h"
 #include "yatable_config.h"
+#include "yatable_phrase.h"
 #include "yatable_private.h"
 
 YATABLE_API YaTableAPI* YaTableGetAPIs()
@@ -36,6 +37,7 @@ YATABLE_API YaTableAPI* YaTableGetAPIs()
     api.contextgetselectedoflist = &YaTableContextGetSelectedOfList;
 
     api.dictchangewordweight = &YaTableDictChangeWordWeight;
+    api.removephrase = &YaTablePhraseRemoveUserPhrase;
 
     api.keygetcommitstrbykeyevent = &YaTableKeyGetCommitstrByKeyEvent;
     api.keygetkeyindex = &YaTableKeyGetKeyIndex;

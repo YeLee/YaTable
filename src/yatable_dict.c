@@ -307,6 +307,8 @@ static YaTableOtherKey* YaTableGetOtherKeys(sqlite3* sqlhandle)
             tkeytype = KEYHOME;
         } else if(strcmp(szkeytype, "KeyEnd") == 0) {
             tkeytype = KEYEND;
+        } else if(strcmp(szkeytype, "KeyRemoveUserPhrase") == 0) {
+            tkeytype = KEYREMOVEUSERPHRASE;
         } else {
             tkeytype = KEYNULL;
         }

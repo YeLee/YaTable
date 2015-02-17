@@ -255,13 +255,13 @@ boolean YaTableProcessKey(YaTableSid sid, KeySym sym, unsigned int state)
         switch(otherkey->keytype) {
         case KEYBACKSPACE:
             if((commit->commitprev != NULL) && (otherkey->stat == state) &&
-                    stat) {
+               stat) {
                 if(commit->cursorindex == YATABLESID(sid)->commitlen)
                     YaTableUpdateCommitStr(sid);
                 YaTableCommitUpdate(sid, keyinfo, state, true, true);
                 if((*(commit->commitprev) == '\0') &&
-                        ((commit->commitnext == NULL) ||
-                         (*(commit->commitnext) == '\0'))) {
+                   ((commit->commitnext == NULL) ||
+                    (*(commit->commitnext) == '\0'))) {
                     YaTableKeySetKeyEvent(sid, KEY_EVENT_COMMIT_CLEAR);
                     YaTableCommitClean(sid);
                     return true;
@@ -308,7 +308,7 @@ boolean YaTableProcessKey(YaTableSid sid, KeySym sym, unsigned int state)
         case KEYMOVEFORWARD:
             if(stat && (otherkey->stat == state)) {
                 if((commit->commitprev != NULL) &&
-                        (commit->commitnextlen > 0)) {
+                   (commit->commitnextlen > 0)) {
                     YaTableCommitUpdate(sid, keyinfo, state, false, true);
                 }
                 YaTableKeySetKeyEvent(sid, KEY_EVENT_COMMIT_CHANGED);
@@ -348,6 +348,13 @@ boolean YaTableProcessKey(YaTableSid sid, KeySym sym, unsigned int state)
                     YaTableGotoEnd(sid);
                 }
                 YaTableKeySetKeyEvent(sid, KEY_EVENT_COMMIT_CHANGED);
+                return true;
+            }
+            break;
+        case KEYREMOVEUSERPHRASE:
+            if(stat && (otherkey->stat == state)) {
+                YaTableKeySetKeyEvent(sid, KEY_EVENT_REMOVE_USER_PHRASE);
+                YaTableCommitClean(sid);
                 return true;
             }
             break;

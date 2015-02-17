@@ -1,4 +1,5 @@
 #include <sqlite3.h>
+#include "yatable_context.h"
 #include "yatable_phrase.h"
 #include "yatable_private.h"
 
@@ -351,6 +352,30 @@ static char* YaTablePhraseGetstem(YaTableSid sid, char* code, char* text)
     return stem;
 }
 
+boolean YaTablePhraseRemoveUserPhrase(YaTableContext* context)
+{
+    YaTableCandInfo* cand = context->currentcand;
+    char* sql = NULL;
+    sqlite3* handle = YATABLESID(context->sid)->handle;
+
+    do {
+        if(cand->selected == true) break;
+        cand = cand->nextcand;
+        if(cand == NULL) break;
+    } while(cand->indexofpage != 0);
+
+    if(cand->selected != true) return false;
+
+    sql = sqlite3_mprintf("DELETE FROM [Data] WHERE code=%q%q%q AND "
+                          "text=%q%q%q AND weight=%u AND type=%d;",
+                          "\"", cand->code, "\"",
+                          "\"", cand->candword, "\"",
+                          cand->weight , YATABLE_USER_PHRASE);
+    sqlite3_exec(handle, sql, 0, 0, NULL);
+    sqlite3_free(sql);
+    return true;
+}
+
 boolean YaTablePhraseAddNewPhrase(YaTableSid sid)
 {
     YaTableCommitData* commitdata = YATABLESID(sid)->commitdata;
@@ -382,7 +407,7 @@ boolean YaTablePhraseAddNewPhrase(YaTableSid sid)
 
     if(sqlite3_exec(handle, "CREATE TABLE IF NOT EXISTS [tempPhrase] "
                     "([code] char, [text] char, [used] int);", 0, 0, NULL) !=
-            SQLITE_OK) {
+       SQLITE_OK) {
         yafree(commitcode);
         return false;
     }
@@ -453,8 +478,9 @@ boolean YaTablePhraseAddNewPhrase(YaTableSid sid)
         if(sqlite3_step(stmt) != SQLITE_ROW) {
 
             sql = sqlite3_mprintf("INSERT INTO [Data] "
-                                  "VALUES(\'%q\', \'%q\', \'\', %d);",
-                                  code, commitstr, codeweight);
+                                  "VALUES(\'%q\', \'%q\', \'\', %u, %d);",
+                                  code, commitstr, codeweight, \
+                                  YATABLE_USER_PHRASE);
             if(sqlite3_exec(handle, sql, 0, 0, NULL) != SQLITE_OK) val = false;
             sqlite3_free(sql);
         }

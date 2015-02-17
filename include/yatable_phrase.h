@@ -6,6 +6,7 @@ char* YaTablePhraseGenCode(YaTableCommitData* data, YaTablePhraseRule* rule,
                            char wordsepa, boolean noempty, boolean useonce);
 YaTablePhraseRule* YaTablePhraseLoadRule(YaTableSid sid);
 void YaTablePhraseUnLoadRule(YaTablePhraseRule* head);
+boolean YaTablePhraseRemoveUserPhrase(YaTableContext* context);
 boolean YaTablePhraseAddNewPhrase(YaTableSid sid);
 
 #endif
